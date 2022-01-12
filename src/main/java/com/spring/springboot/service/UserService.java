@@ -1,6 +1,5 @@
 package com.spring.springboot.service;
 
-import org.springframework.security.core.userdetails.UserDetailsService;
 import com.spring.springboot.model.User;
 
 import java.util.List;

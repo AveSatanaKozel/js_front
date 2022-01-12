@@ -21,11 +21,8 @@ import com.spring.springboot.config.handler.LoginSuccessHandler;
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
 
-
     @Autowired
     private UserDetailsService userDetailsService;
-
-
 
 
     @Override
@@ -36,25 +33,17 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http.formLogin()
-//                .disable();
                 .successHandler(new LoginSuccessHandler())
-
-                // указываем action с формы логина
                 .loginProcessingUrl("/login")
-                // Указываем параметры логина и пароля с формы логина
                 .usernameParameter("j_username")
                 .passwordParameter("j_password")
-                // даем доступ к форме логина всем
+
                 .permitAll();
 
         http.logout()
-                // разрешаем делать логаут всем
                 .permitAll()
-                // указываем URL логаута
                 .logoutRequestMatcher(new AntPathRequestMatcher("/logout"))
-                // указываем URL при удачном логауте
                 .logoutSuccessUrl("/")
-                //выклчаем кроссдоменную секьюрность (на этапе обучения неважна)
                 .and().csrf().disable();
 
         http
@@ -62,8 +51,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers("/login").anonymous()
                 .antMatchers("/user").hasAnyAuthority("ROLE_USER", "ROLE_ADMIN")
                 .antMatchers("/adduser").hasAnyAuthority("ROLE_ADMIN")
-                .antMatchers("/thisUser").hasAnyAuthority("ROLE_USER", "ROLE_ADMIN") //эксперименты
-
+                .antMatchers("/thisUser").hasAnyAuthority("ROLE_USER", "ROLE_ADMIN")
                 .antMatchers("/edituser/*").hasAnyAuthority("ROLE_ADMIN")
                 .antMatchers("/admin").hasAnyAuthority("ROLE_ADMIN");
     }
